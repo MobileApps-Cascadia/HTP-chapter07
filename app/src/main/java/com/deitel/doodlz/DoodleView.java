@@ -34,6 +34,8 @@ public class DoodleView extends View
    private final Paint paintScreen; // used to draw bitmap onto screen
    private final Paint paintLine; // used to draw lines onto bitmap
 
+   private Doodler CurrentDoodler;
+
    // Maps of current Paths being drawn and Points in those Paths
    private final Map<Integer, Path> pathMap = new HashMap<Integer, Path>();
    private final Map<Integer, Point> previousPointMap =
@@ -59,6 +61,8 @@ public class DoodleView extends View
       // GestureDetector for single taps
       singleTapDetector =
          new GestureDetector(getContext(), singleTapListener);
+
+      CurrentDoodler = PaintBrush;
    }
 
    // Method onSizeChanged creates Bitmap and Canvas after app displays
@@ -188,80 +192,98 @@ public class DoodleView extends View
       return true;
    } // end method onTouchEvent
 
-   // called when the user touches the screen
-   private void touchStarted(float x, float y, int lineID)
-   {
-      Path path; // used to store the path for the given touch id
-      Point point; // used to store the last point in path
+   interface Doodler {
+      void started(float x, float y, int lineID);
+      void moved(MotionEvent event);
+      void ended(int lineID);
+   }
 
-      // if there is already a path for lineID
-      if (pathMap.containsKey(lineID))
-      {
-         path = pathMap.get(lineID); // get the Path
-         path.reset(); // reset the Path because a new touch has started
-         point = previousPointMap.get(lineID); // get Path's last point
-      }
-      else
-      {
-         path = new Path();
-         pathMap.put(lineID, path); // add the Path to Map
-         point = new Point(); // create a new Point
-         previousPointMap.put(lineID, point); // add the Point to the Map
-      }
+   Doodler PaintBrush = new Doodler() {
+      public void started(float x, float y, int lineID) {
+         Path path; // used to store the path for the given touch id
+         Point point; // used to store the last point in path
 
-      // move to the coordinates of the touch
-      path.moveTo(x, y);
-      point.x = (int) x;
-      point.y = (int) y;
-   } // end method touchStarted
-
-   // called when the user drags along the screen
-   private void touchMoved(MotionEvent event)
-   {
-      // for each of the pointers in the given MotionEvent
-      for (int i = 0; i < event.getPointerCount(); i++)
-      {
-         // get the pointer ID and pointer index
-         int pointerID = event.getPointerId(i);
-         int pointerIndex = event.findPointerIndex(pointerID);
-
-         // if there is a path associated with the pointer
-         if (pathMap.containsKey(pointerID))
+         // if there is already a path for lineID
+         if (pathMap.containsKey(lineID))
          {
-            // get the new coordinates for the pointer
-            float newX = event.getX(pointerIndex);
-            float newY = event.getY(pointerIndex);
+            path = pathMap.get(lineID); // get the Path
+            path.reset(); // reset the Path because a new touch has started
+            point = previousPointMap.get(lineID); // get Path's last point
+         }
+         else
+         {
+            path = new Path();
+            pathMap.put(lineID, path); // add the Path to Map
+            point = new Point(); // create a new Point
+            previousPointMap.put(lineID, point); // add the Point to the Map
+         }
 
-            // get the Path and previous Point associated with
-            // this pointer
-            Path path = pathMap.get(pointerID);
-            Point point = previousPointMap.get(pointerID);
+         // move to the coordinates of the touch
+         path.moveTo(x, y);
+         point.x = (int) x;
+         point.y = (int) y;
 
-            // calculate how far the user moved from the last update
-            float deltaX = Math.abs(newX - point.x);
-            float deltaY = Math.abs(newY - point.y);
+      }
 
-            // if the distance is significant enough to matter
-            if (deltaX >= TOUCH_TOLERANCE || deltaY >= TOUCH_TOLERANCE)
+      public void moved(MotionEvent event) {
+         // for each of the pointers in the given MotionEvent
+         for (int i = 0; i < event.getPointerCount(); i++)
+         {
+            // get the pointer ID and pointer index
+            int pointerID = event.getPointerId(i);
+            int pointerIndex = event.findPointerIndex(pointerID);
+
+            // if there is a path associated with the pointer
+            if (pathMap.containsKey(pointerID))
             {
-               // move the path to the new location
-               path.quadTo(point.x, point.y, (newX + point.x) / 2,
-                  (newY + point.y) / 2);
+               // get the new coordinates for the pointer
+               float newX = event.getX(pointerIndex);
+               float newY = event.getY(pointerIndex);
 
-               // store the new coordinates
-               point.x = (int) newX;
-               point.y = (int) newY;
+               // get the Path and previous Point associated with
+               // this pointer
+               Path path = pathMap.get(pointerID);
+               Point point = previousPointMap.get(pointerID);
+
+               // calculate how far the user moved from the last update
+               float deltaX = Math.abs(newX - point.x);
+               float deltaY = Math.abs(newY - point.y);
+
+               // if the distance is significant enough to matter
+               if (deltaX >= TOUCH_TOLERANCE || deltaY >= TOUCH_TOLERANCE)
+               {
+                  // move the path to the new location
+                  path.quadTo(point.x, point.y, (newX + point.x) / 2,
+                          (newY + point.y) / 2);
+
+                  // store the new coordinates
+                  point.x = (int) newX;
+                  point.y = (int) newY;
+               }
             }
          }
       }
-   } // end method touchMoved
+
+      public void ended(int lineID) {
+         Path path = pathMap.get(lineID); // get the corresponding Path
+         bitmapCanvas.drawPath(path, paintLine); // draw to bitmapCanvas
+         path.reset(); // reset the Path
+      }
+   };
+
+   // called when the user touches the screen
+   private void touchStarted(float x, float y, int lineID) {
+      CurrentDoodler.started(x, y, lineID);
+   }
+
+   // called when the user drags along the screen
+   private void touchMoved(MotionEvent event) {
+      CurrentDoodler.moved(event);
+   }
 
    // called when the user finishes a touch
-   private void touchEnded(int lineID)
-   {
-      Path path = pathMap.get(lineID); // get the corresponding Path
-      bitmapCanvas.drawPath(path, paintLine); // draw to bitmapCanvas
-      path.reset(); // reset the Path
+   private void touchEnded(int lineID) {
+      CurrentDoodler.ended(lineID);
    }
 
    // save the current image to the Gallery
