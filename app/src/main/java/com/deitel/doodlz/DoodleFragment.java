@@ -163,7 +163,7 @@ public class DoodleFragment extends Fragment
             widthdialog.show(getFragmentManager(), "line width dialog");
             return true; // consume the menu event
          case R.id.eraser:
-            doodleView.setDrawingColor(Color.WHITE); // line color white
+            doodleView.setDrawingColor(doodleView.getBackgroundColor()); // line color same as background
             return true; // consume the menu event
          case R.id.clear:
             confirmErase(); // confirm before erasing image

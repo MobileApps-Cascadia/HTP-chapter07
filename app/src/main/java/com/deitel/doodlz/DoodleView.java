@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.print.PrintHelper;
@@ -33,11 +34,14 @@ public class DoodleView extends View
    private Canvas bitmapCanvas; // used to draw on bitmap
    private final Paint paintScreen; // used to draw bitmap onto screen
    private final Paint paintLine; // used to draw lines onto bitmap
+
+   private int backgroundColor; // used to remember the current background color
    
    // Maps of current Paths being drawn and Points in those Paths
    private final Map<Integer, Path> pathMap = new HashMap<Integer, Path>(); 
-   private final Map<Integer, Point> previousPointMap = 
-      new HashMap<Integer, Point>();
+   private final Map<Integer, Point> previousPointMap = new HashMap<Integer, Point>();
+   private final Map<Integer, RectF> ovalMap = new HashMap<Integer, RectF>();
+   private final Map<Integer, RectF> rectMap = new HashMap<Integer, RectF>();
    
    // used to hide/show system bars 
    private GestureDetector singleTapDetector; 
@@ -55,6 +59,8 @@ public class DoodleView extends View
       paintLine.setStyle(Paint.Style.STROKE); // solid line
       paintLine.setStrokeWidth(5); // set the default line width
       paintLine.setStrokeCap(Paint.Cap.ROUND); // rounded line ends
+
+      backgroundColor = Color.WHITE; // default background to white
       
       // GestureDetector for single taps
       singleTapDetector = 
@@ -68,15 +74,20 @@ public class DoodleView extends View
       bitmap = Bitmap.createBitmap(getWidth(), getHeight(), 
          Bitmap.Config.ARGB_8888);
       bitmapCanvas = new Canvas(bitmap);
-      bitmap.eraseColor(Color.WHITE); // erase the Bitmap with white
+      bitmap.eraseColor(backgroundColor); // erase the Bitmap with the background color
    } 
    
    // clear the painting
-   public void clear()
+   public void clear(boolean keepBackground)
    {
       pathMap.clear(); // remove all paths
       previousPointMap.clear(); // remove all previous points
-      bitmap.eraseColor(Color.WHITE); // clear the bitmap 
+      ovalMap.clear();
+
+      if (keepBackground)
+         bitmap.eraseColor(backgroundColor); // clear the bitmap to the background color
+      else
+         bitmap.eraseColor(Color.WHITE); // clear the bitmap
       invalidate(); // refresh the screen
    }
    
@@ -102,7 +113,15 @@ public class DoodleView extends View
    public int getLineWidth() 
    {
       return (int) paintLine.getStrokeWidth();
-   } 
+   }
+
+   public void setBackgroundColor(int color)
+   {
+      backgroundColor = color;
+      bitmap.eraseColor(backgroundColor);
+   }
+
+   public int getBackgroundColor() { return backgroundColor; }
 
    // called each time this View is drawn
    @Override

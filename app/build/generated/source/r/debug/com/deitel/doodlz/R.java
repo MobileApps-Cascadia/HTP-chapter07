@@ -55,25 +55,27 @@ public final class R {
         public static final int app_name=0x7f060000;
         public static final int button_cancel=0x7f060001;
         public static final int button_erase=0x7f060002;
-        public static final int button_set_color=0x7f060003;
-        public static final int button_set_line_width=0x7f060004;
-        public static final int label_alpha=0x7f060005;
-        public static final int label_blue=0x7f060006;
-        public static final int label_green=0x7f060007;
-        public static final int label_red=0x7f060008;
-        public static final int line_imageview_description=0x7f060009;
-        public static final int menuitem_clear=0x7f06000a;
-        public static final int menuitem_color=0x7f06000b;
-        public static final int menuitem_eraser=0x7f06000c;
-        public static final int menuitem_line_width=0x7f06000d;
-        public static final int menuitem_print=0x7f06000e;
-        public static final int menuitem_save=0x7f06000f;
-        public static final int message_erase=0x7f060010;
-        public static final int message_error_printing=0x7f060011;
-        public static final int message_error_saving=0x7f060012;
-        public static final int message_saved=0x7f060013;
-        public static final int title_color_dialog=0x7f060014;
-        public static final int title_line_width_dialog=0x7f060015;
+        public static final int button_keep_bg=0x7f060003;
+        public static final int button_set_background=0x7f060004;
+        public static final int button_set_color=0x7f060005;
+        public static final int button_set_line_width=0x7f060006;
+        public static final int label_alpha=0x7f060007;
+        public static final int label_blue=0x7f060008;
+        public static final int label_green=0x7f060009;
+        public static final int label_red=0x7f06000a;
+        public static final int line_imageview_description=0x7f06000b;
+        public static final int menuitem_clear=0x7f06000c;
+        public static final int menuitem_color=0x7f06000d;
+        public static final int menuitem_eraser=0x7f06000e;
+        public static final int menuitem_line_width=0x7f06000f;
+        public static final int menuitem_print=0x7f060010;
+        public static final int menuitem_save=0x7f060011;
+        public static final int message_erase=0x7f060012;
+        public static final int message_error_printing=0x7f060013;
+        public static final int message_error_saving=0x7f060014;
+        public static final int message_saved=0x7f060015;
+        public static final int title_color_dialog=0x7f060016;
+        public static final int title_line_width_dialog=0x7f060017;
     }
     public static final class style {
         /**  API 11 theme customizations can go here. 
