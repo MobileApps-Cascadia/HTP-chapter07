@@ -196,6 +196,7 @@ public class DoodleView extends View
 
    public void setPenDoodler() { currentDoodler = pen; }
    public void setCircleDoodler() { currentDoodler = circle; }
+   public void setSquareDoodler() { currentDoodler = square; }
 
    interface Doodler {
       void started(float x, float y, int lineID);
@@ -203,57 +204,73 @@ public class DoodleView extends View
       void ended(int lineID);
    }
 
-   Doodler circle = new Doodler() {
-      float startX;
-      float startY;
-      float endX;
-      float endY;
-      boolean drawing = false;
+   interface ShapeDrawer {
+      void addShape(Path p, RectF r, Direction d);
+   }
 
-      public void started(float x, float y, int lineID) {
-         startX = x;
-         startY = y;
-         endX = x;
-         endY = y;
-         drawing = true;
-      }
+   Doodler circle = newShapeDoodler(
+           new ShapeDrawer() {
+              public void addShape(Path p, RectF r, Direction d) {
+                 p.addOval(r, d);
+              }
+           }
+   );
 
-      public void moved(MotionEvent event) {
-         endX = event.getX();
-         endY = event.getY();
-      }
+   Doodler square = newShapeDoodler(
+           new ShapeDrawer() {
+              public void addShape(Path p, RectF r, Direction d) {
+                 p.addRect(r, d);
+              }
+           }
+   );
 
-      public void ended(int lineID) {
-         drawing = false;
+   Doodler newShapeDoodler(final ShapeDrawer sd) {
+      return new Doodler() {
+         float startX;
+         float startY;
+         float endX;
+         float endY;
+         boolean drawing = false;
 
-         final float lowX, lowY, highX, highY;
-         if (startX > endX) {
-            lowX = startX;
-            highX = endX;
-         } else {
-            lowX = endX;
-            highX = startX;
+         public void started(float x, float y, int lineID) {
+            startX = x;
+            startY = y;
+            endX = x;
+            endY = y;
+            drawing = true;
          }
 
-         if (startY > endY) {
-            lowY = startY;
-            highY = endY;
-         } else {
-            lowY = endY;
-            highY = startY;
+         public void moved(MotionEvent event) {
+            endX = event.getX();
+            endY = event.getY();
          }
 
-         Path p = new Path();
-         p.addOval(new RectF(lowX, lowY, highX, highY), Direction.CW);
-         bitmapCanvas.drawPath(p, paintLine);
-      }
-   };
+         public void ended(int lineID) {
+            drawing = false;
 
-   Doodler square = new Doodler() {
-      public void started(float x, float y, int lineID) { }
-      public void moved(MotionEvent event) { }
-      public void ended(int lineID) { }
-   };
+            final float lowX, lowY, highX, highY;
+            if (startX > endX) {
+               lowX = startX;
+               highX = endX;
+            } else {
+               lowX = endX;
+               highX = startX;
+            }
+
+            if (startY > endY) {
+               lowY = startY;
+               highY = endY;
+            } else {
+               lowY = endY;
+               highY = startY;
+            }
+
+            Path p = new Path();
+            sd.addShape(p, new RectF(lowX, lowY, highX, highY), Direction.CW);
+            bitmapCanvas.drawPath(p, paintLine);
+         }
+      };
+   }
 
    Doodler pen = new Doodler() {
       public void started(float x, float y, int lineID) {

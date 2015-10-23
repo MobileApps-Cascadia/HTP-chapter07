@@ -36,76 +36,49 @@
     <favorites_list name="Doodlz" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="DoodleFragment.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleFragment.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="-8.333333">
-                  <caret line="168" column="31" selection-start-line="168" selection-start-column="31" selection-end-line="168" selection-end-column="31" />
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="DoodleView.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleView.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.2857143">
-                  <caret line="198" column="0" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#2849#2850#0" expanded="true" />
-                    <element signature="e#3059#3060#0" expanded="true" />
-                    <element signature="e#3376#3377#0" expanded="true" />
-                    <element signature="e#3420#3421#0" expanded="true" />
-                    <element signature="e#10549#10550#0" expanded="true" />
-                    <element signature="e#10598#10599#0" expanded="true" />
-                    <element signature="e#10697#10698#0" expanded="true" />
-                    <element signature="e#10737#10738#0" expanded="true" />
-                    <element signature="e#10823#10824#0" expanded="true" />
-                    <element signature="e#10864#10865#0" expanded="true" />
-                    <element signature="e#11462#11484#0" expanded="true" />
-                    <element signature="e#11800#11829#0" expanded="true" />
-                    <element signature="e#12622#12653#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="DoodleView.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleView.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.8333333">
-                  <caret line="325" column="16" selection-start-line="325" selection-start-column="16" selection-end-line="325" selection-end-column="16" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                    <element signature="e#2849#2850#0" expanded="true" />
-                    <element signature="e#3059#3060#0" expanded="true" />
-                    <element signature="e#4824#5172#0" expanded="false" />
-                    <element signature="e#5171#5172#0" expanded="false" />
-                    <element signature="e#10549#10550#0" expanded="true" />
-                    <element signature="e#10598#10599#0" expanded="true" />
-                    <element signature="e#10697#10698#0" expanded="true" />
-                    <element signature="e#10737#10738#0" expanded="true" />
-                    <element signature="e#10823#10824#0" expanded="true" />
-                    <element signature="e#10864#10865#0" expanded="true" />
-                    <element signature="e#11462#11484#0" expanded="true" />
-                    <element signature="e#11800#11829#0" expanded="true" />
-                    <element signature="e#12622#12653#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="DoodleFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.8888888">
+              <caret line="171" column="31" selection-start-line="171" selection-start-column="31" selection-end-line="171" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DoodleView.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleView.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="203" column="17" selection-start-line="203" selection-start-column="17" selection-end-line="203" selection-end-column="17" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#3142#3143#0" expanded="true" />
+                <element signature="e#3180#3181#0" expanded="true" />
+                <element signature="e#3493#3494#0" expanded="true" />
+                <element signature="e#3545#3546#0" expanded="true" />
+                <element signature="e#4824#5172#0" expanded="true" />
+                <element signature="e#5171#5172#0" expanded="true" />
+                <element signature="e#6680#6829#0" expanded="true" />
+                <element signature="e#6828#6829#0" expanded="true" />
+                <element signature="e#6885#7034#0" expanded="true" />
+                <element signature="e#7033#7034#0" expanded="true" />
+                <element signature="e#11084#11085#0" expanded="true" />
+                <element signature="e#11133#11134#0" expanded="true" />
+                <element signature="e#11232#11233#0" expanded="true" />
+                <element signature="e#11272#11273#0" expanded="true" />
+                <element signature="e#11358#11359#0" expanded="true" />
+                <element signature="e#11399#11400#0" expanded="true" />
+                <element signature="e#11997#12019#0" expanded="true" />
+                <element signature="e#12335#12364#0" expanded="true" />
+                <element signature="e#13157#13188#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -1422,8 +1395,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/doodle_fragment_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu-v19/doodle_fragment_menu.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleFragment.java" />
       </list>
     </option>
   </component>
@@ -1816,7 +1789,13 @@
       <option name="project" value="LOCAL" />
       <updated>1445636787328</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Implemented circle drawing">
+      <created>1445640024546</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1445640024546</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1840,7 +1819,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" x="100" y="122" width="1080" height="574" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32978722" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32978722" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1909,7 +1888,8 @@
     <MESSAGE value="Added interface Doodler&#10;&#10;Doodler used for different types of inputting&#10;Currently only &quot;pen&quot; type drawing was supported-- Doodler interface will be used to implement circle and square drawing too&#10;Old &quot;pen&quot; code added to an implementation, CurrentDoodler instance variable sets to pen doodler by default" />
     <MESSAGE value="Added menu options for pen, circle, square &#10;&#10;String resources added for menu labels" />
     <MESSAGE value="Refactored names&#10;&#10;* Renamed PaintBrush to pen&#10;* Uncapitalized instance variable names" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored names&#10;&#10;* Renamed PaintBrush to pen&#10;* Uncapitalized instance variable names" />
+    <MESSAGE value="Implemented circle drawing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented circle drawing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1922,19 +1902,25 @@
           <caret line="68" column="6" selection-start-line="68" selection-start-column="6" selection-end-line="68" selection-end-column="6" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2849#2850#0" expanded="true" />
-            <element signature="e#3059#3060#0" expanded="true" />
-            <element signature="e#3376#3377#0" expanded="true" />
-            <element signature="e#3420#3421#0" expanded="true" />
-            <element signature="e#10549#10550#0" expanded="true" />
-            <element signature="e#10598#10599#0" expanded="true" />
-            <element signature="e#10697#10698#0" expanded="true" />
-            <element signature="e#10737#10738#0" expanded="true" />
-            <element signature="e#10823#10824#0" expanded="true" />
-            <element signature="e#10864#10865#0" expanded="true" />
-            <element signature="e#11462#11484#0" expanded="true" />
-            <element signature="e#11800#11829#0" expanded="true" />
-            <element signature="e#12622#12653#0" expanded="true" />
+            <element signature="e#3142#3143#0" expanded="true" />
+            <element signature="e#3180#3181#0" expanded="true" />
+            <element signature="e#3493#3494#0" expanded="true" />
+            <element signature="e#3545#3546#0" expanded="true" />
+            <element signature="e#4824#5172#0" expanded="true" />
+            <element signature="e#5171#5172#0" expanded="true" />
+            <element signature="e#6680#6829#0" expanded="true" />
+            <element signature="e#6828#6829#0" expanded="true" />
+            <element signature="e#6885#7034#0" expanded="true" />
+            <element signature="e#7033#7034#0" expanded="true" />
+            <element signature="e#11084#11085#0" expanded="true" />
+            <element signature="e#11133#11134#0" expanded="true" />
+            <element signature="e#11232#11233#0" expanded="true" />
+            <element signature="e#11272#11273#0" expanded="true" />
+            <element signature="e#11358#11359#0" expanded="true" />
+            <element signature="e#11399#11400#0" expanded="true" />
+            <element signature="e#11997#12019#0" expanded="true" />
+            <element signature="e#12335#12364#0" expanded="true" />
+            <element signature="e#13157#13188#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2101,31 +2087,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.333333">
-          <caret line="168" column="31" selection-start-line="168" selection-start-column="31" selection-end-line="168" selection-end-column="31" />
+        <state vertical-scroll-proportion="-3.8888888">
+          <caret line="171" column="31" selection-start-line="171" selection-start-column="31" selection-end-line="171" selection-end-column="31" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/deitel/doodlz/DoodleView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2857143">
-          <caret line="198" column="0" selection-start-line="198" selection-start-column="0" selection-end-line="198" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="203" column="17" selection-start-line="203" selection-start-column="17" selection-end-line="203" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2849#2850#0" expanded="true" />
-            <element signature="e#3059#3060#0" expanded="true" />
-            <element signature="e#3376#3377#0" expanded="true" />
-            <element signature="e#3420#3421#0" expanded="true" />
-            <element signature="e#10549#10550#0" expanded="true" />
-            <element signature="e#10598#10599#0" expanded="true" />
-            <element signature="e#10697#10698#0" expanded="true" />
-            <element signature="e#10737#10738#0" expanded="true" />
-            <element signature="e#10823#10824#0" expanded="true" />
-            <element signature="e#10864#10865#0" expanded="true" />
-            <element signature="e#11462#11484#0" expanded="true" />
-            <element signature="e#11800#11829#0" expanded="true" />
-            <element signature="e#12622#12653#0" expanded="true" />
+            <element signature="e#3142#3143#0" expanded="true" />
+            <element signature="e#3180#3181#0" expanded="true" />
+            <element signature="e#3493#3494#0" expanded="true" />
+            <element signature="e#3545#3546#0" expanded="true" />
+            <element signature="e#4824#5172#0" expanded="true" />
+            <element signature="e#5171#5172#0" expanded="true" />
+            <element signature="e#6680#6829#0" expanded="true" />
+            <element signature="e#6828#6829#0" expanded="true" />
+            <element signature="e#6885#7034#0" expanded="true" />
+            <element signature="e#7033#7034#0" expanded="true" />
+            <element signature="e#11084#11085#0" expanded="true" />
+            <element signature="e#11133#11134#0" expanded="true" />
+            <element signature="e#11232#11233#0" expanded="true" />
+            <element signature="e#11272#11273#0" expanded="true" />
+            <element signature="e#11358#11359#0" expanded="true" />
+            <element signature="e#11399#11400#0" expanded="true" />
+            <element signature="e#11997#12019#0" expanded="true" />
+            <element signature="e#12335#12364#0" expanded="true" />
+            <element signature="e#13157#13188#0" expanded="true" />
           </folding>
         </state>
       </provider>

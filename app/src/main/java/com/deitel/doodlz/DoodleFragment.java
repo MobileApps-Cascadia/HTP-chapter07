@@ -168,6 +168,9 @@ public class DoodleFragment extends Fragment
          case R.id.circle:
             doodleView.setCircleDoodler();
             return true;
+         case R.id.square:
+            doodleView.setSquareDoodler();
+            return true;
          case R.id.eraser:
             doodleView.setDrawingColor(Color.WHITE); // line color white
             return true; // consume the menu event
