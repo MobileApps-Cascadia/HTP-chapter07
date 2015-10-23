@@ -104,9 +104,10 @@ public class ColorDialogFragment extends DialogFragment
 
    // tell DoodleFragment that dialog is no longer displayed
    @Override
-   public void onDetach()
-   {
+   public void onDetach() {
       super.onDetach();
+      if (settingBgColor)
+         (getDoodleFragment().getDoodleView()).clear();
       DoodleFragment fragment = getDoodleFragment();
 
       if (fragment != null)

@@ -84,7 +84,6 @@ public class DoodleView extends View
    {
       pathMap.clear(); // remove all paths
       previousPointMap.clear(); // remove all previous points
-      bgColor = Color.WHITE;
       bitmap.eraseColor(bgColor); // clear the bitmap
       invalidate(); // refresh the screen
    }
