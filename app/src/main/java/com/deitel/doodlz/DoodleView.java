@@ -34,7 +34,7 @@ public class DoodleView extends View
    private final Paint paintScreen; // used to draw bitmap onto screen
    private final Paint paintLine; // used to draw lines onto bitmap
 
-   private Doodler CurrentDoodler;
+   private Doodler currentDoodler;
 
    // Maps of current Paths being drawn and Points in those Paths
    private final Map<Integer, Path> pathMap = new HashMap<Integer, Path>();
@@ -62,7 +62,7 @@ public class DoodleView extends View
       singleTapDetector =
          new GestureDetector(getContext(), singleTapListener);
 
-      CurrentDoodler = PaintBrush;
+      currentDoodler = pen;
    }
 
    // Method onSizeChanged creates Bitmap and Canvas after app displays
@@ -192,13 +192,15 @@ public class DoodleView extends View
       return true;
    } // end method onTouchEvent
 
+   public void setPenDoodler() { currentDoodler = pen; }
+
    interface Doodler {
       void started(float x, float y, int lineID);
       void moved(MotionEvent event);
       void ended(int lineID);
    }
 
-   Doodler PaintBrush = new Doodler() {
+   Doodler pen = new Doodler() {
       public void started(float x, float y, int lineID) {
          Path path; // used to store the path for the given touch id
          Point point; // used to store the last point in path
@@ -273,17 +275,17 @@ public class DoodleView extends View
 
    // called when the user touches the screen
    private void touchStarted(float x, float y, int lineID) {
-      CurrentDoodler.started(x, y, lineID);
+      currentDoodler.started(x, y, lineID);
    }
 
    // called when the user drags along the screen
    private void touchMoved(MotionEvent event) {
-      CurrentDoodler.moved(event);
+      currentDoodler.moved(event);
    }
 
    // called when the user finishes a touch
    private void touchEnded(int lineID) {
-      CurrentDoodler.ended(lineID);
+      currentDoodler.ended(lineID);
    }
 
    // save the current image to the Gallery
