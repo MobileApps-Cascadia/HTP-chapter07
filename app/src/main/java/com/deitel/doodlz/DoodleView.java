@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.RectF;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.print.PrintHelper;
@@ -22,6 +23,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
+import android.graphics.Path.Direction;
 
 // the main screen that is painted
 public class DoodleView extends View
@@ -193,12 +195,65 @@ public class DoodleView extends View
    } // end method onTouchEvent
 
    public void setPenDoodler() { currentDoodler = pen; }
+   public void setCircleDoodler() { currentDoodler = circle; }
 
    interface Doodler {
       void started(float x, float y, int lineID);
       void moved(MotionEvent event);
       void ended(int lineID);
    }
+
+   Doodler circle = new Doodler() {
+      float startX;
+      float startY;
+      float endX;
+      float endY;
+      boolean drawing = false;
+
+      public void started(float x, float y, int lineID) {
+         startX = x;
+         startY = y;
+         endX = x;
+         endY = y;
+         drawing = true;
+      }
+
+      public void moved(MotionEvent event) {
+         endX = event.getX();
+         endY = event.getY();
+      }
+
+      public void ended(int lineID) {
+         drawing = false;
+
+         final float lowX, lowY, highX, highY;
+         if (startX > endX) {
+            lowX = startX;
+            highX = endX;
+         } else {
+            lowX = endX;
+            highX = startX;
+         }
+
+         if (startY > endY) {
+            lowY = startY;
+            highY = endY;
+         } else {
+            lowY = endY;
+            highY = startY;
+         }
+
+         Path p = new Path();
+         p.addOval(new RectF(lowX, lowY, highX, highY), Direction.CW);
+         bitmapCanvas.drawPath(p, paintLine);
+      }
+   };
+
+   Doodler square = new Doodler() {
+      public void started(float x, float y, int lineID) { }
+      public void moved(MotionEvent event) { }
+      public void ended(int lineID) { }
+   };
 
    Doodler pen = new Doodler() {
       public void started(float x, float y, int lineID) {
