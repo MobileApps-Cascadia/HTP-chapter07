@@ -11,9 +11,24 @@
         android:title="@string/menuitem_line_width">
     </item>
     <item
+        android:id="@+id/pen"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_pen">
+    </item>
+    <item
         android:id="@+id/eraser"
         android:showAsAction="ifRoom"
         android:title="@string/menuitem_eraser">
+    </item>
+    <item
+        android:id="@+id/square"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_square">
+    </item>
+    <item
+        android:id="@+id/circle"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_circle">
     </item>
     <item
         android:id="@+id/clear"
@@ -24,6 +39,11 @@
         android:id="@+id/save"
         android:showAsAction="ifRoom"
         android:title="@string/menuitem_save">
+    </item>
+    <item
+        android:id="@+id/print"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_print">
     </item>
 
 </menu><!-- From: file:/Users/well/AndroidStudioProjects/HTP-chapter07/app/src/main/res/menu/doodle_fragment_menu.xml -->
