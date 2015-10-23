@@ -6,6 +6,11 @@
         android:title="@string/menuitem_color">
     </item>
     <item
+        android:id="@+id/bg_color"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_bg_color">
+    </item>
+    <item
         android:id="@+id/lineWidth"
         android:showAsAction="ifRoom"
         android:title="@string/menuitem_line_width">

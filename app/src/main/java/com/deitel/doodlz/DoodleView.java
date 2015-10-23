@@ -37,6 +37,7 @@ public class DoodleView extends View
    private final Paint paintLine; // used to draw lines onto bitmap
 
    private Doodler currentDoodler;
+   private int bgColor;
 
    // Maps of current Paths being drawn and Points in those Paths
    private final Map<Integer, Path> pathMap = new HashMap<Integer, Path>();
@@ -65,6 +66,7 @@ public class DoodleView extends View
          new GestureDetector(getContext(), singleTapListener);
 
       currentDoodler = pen;
+      bgColor = Color.WHITE;
    }
 
    // Method onSizeChanged creates Bitmap and Canvas after app displays
@@ -74,7 +76,7 @@ public class DoodleView extends View
       bitmap = Bitmap.createBitmap(getWidth(), getHeight(),
          Bitmap.Config.ARGB_8888);
       bitmapCanvas = new Canvas(bitmap);
-      bitmap.eraseColor(Color.WHITE); // erase the Bitmap with white
+      bitmap.eraseColor(bgColor); // erase the Bitmap with white
    }
 
    // clear the painting
@@ -82,7 +84,8 @@ public class DoodleView extends View
    {
       pathMap.clear(); // remove all paths
       previousPointMap.clear(); // remove all previous points
-      bitmap.eraseColor(Color.WHITE); // clear the bitmap
+      bgColor = Color.WHITE;
+      bitmap.eraseColor(bgColor); // clear the bitmap
       invalidate(); // refresh the screen
    }
 
@@ -193,6 +196,9 @@ public class DoodleView extends View
       invalidate(); // redraw
       return true;
    } // end method onTouchEvent
+
+   public void setBgColor(int c) { bgColor = c; }
+   public int getBgColor() { return bgColor; }
 
    public void setPenDoodler() { currentDoodler = pen; }
    public void setCircleDoodler() { currentDoodler = circle; }

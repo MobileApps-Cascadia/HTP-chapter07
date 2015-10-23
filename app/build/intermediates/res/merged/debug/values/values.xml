@@ -18,6 +18,7 @@
     <string name="label_green">Green</string>
     <string name="label_red">Red</string>
     <string name="line_imageview_description">This displays the line thickness</string>
+    <string name="menuitem_bg_color">BG Color</string>
     <string name="menuitem_circle">Circle</string>
     <string name="menuitem_clear">Clear</string>
     <string name="menuitem_color">Color</string>

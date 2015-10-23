@@ -6,6 +6,11 @@
         android:title="@string/menuitem_color">
     </item>
     <item
+        android:id="@+id/bg_color"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_bg_color">
+    </item>
+    <item
         android:id="@+id/lineWidth"
         android:showAsAction="ifRoom"
         android:title="@string/menuitem_line_width">
@@ -46,4 +51,5 @@
         android:title="@string/menuitem_print">
     </item>
 
-</menu><!-- From: file:/Users/well/AndroidStudioProjects/HTP-chapter07/app/src/main/res/menu-v19/doodle_fragment_menu.xml -->
+</menu>
+<!-- From: file:/Users/well/AndroidStudioProjects/HTP-chapter07/app/src/main/res/menu-v19/doodle_fragment_menu.xml -->

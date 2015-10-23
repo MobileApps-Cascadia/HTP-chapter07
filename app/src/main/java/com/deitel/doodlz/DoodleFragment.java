@@ -146,6 +146,14 @@ public class DoodleFragment extends Fragment
       inflater.inflate(R.menu.doodle_fragment_menu, menu);
    }
 
+   void newColorDialog(boolean bgColor) {
+      ColorDialogFragment colorDialog = new ColorDialogFragment();
+      Bundle b = new Bundle();
+      b.putBoolean("bg", bgColor);
+      colorDialog.setArguments(b);
+      colorDialog.show(getFragmentManager(), "color dialog");
+   }
+
    // handle choice from options menu
    @Override
    public boolean onOptionsItemSelected(MenuItem item)
@@ -154,8 +162,10 @@ public class DoodleFragment extends Fragment
       switch (item.getItemId())
       {
          case R.id.color:
-            ColorDialogFragment colorDialog = new ColorDialogFragment();
-            colorDialog.show(getFragmentManager(), "color dialog");
+            newColorDialog(false);
+            return true; // consume the menu event
+         case R.id.bg_color:
+            newColorDialog(true);
             return true; // consume the menu event
          case R.id.lineWidth:
             LineWidthDialogFragment widthdialog =
@@ -172,7 +182,7 @@ public class DoodleFragment extends Fragment
             doodleView.setSquareDoodler();
             return true;
          case R.id.eraser:
-            doodleView.setDrawingColor(Color.WHITE); // line color white
+            doodleView.setDrawingColor(doodleView.getBgColor());
             return true; // consume the menu event
          case R.id.clear:
             confirmErase(); // confirm before erasing image

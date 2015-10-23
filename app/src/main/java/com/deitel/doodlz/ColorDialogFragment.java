@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-// class for the Select Color dialog   
+// class for the Select Color dialog
 public class ColorDialogFragment extends DialogFragment
 {
    private SeekBar alphaSeekBar;
@@ -22,22 +22,25 @@ public class ColorDialogFragment extends DialogFragment
    private SeekBar blueSeekBar;
    private View colorView;
    private int color;
-   
+   private boolean settingBgColor;
+
    // create an AlertDialog and return it
    @Override
    public Dialog onCreateDialog(Bundle bundle)
    {
-      AlertDialog.Builder builder = 
+      settingBgColor = getArguments().getBoolean("bg");
+
+      AlertDialog.Builder builder =
          new AlertDialog.Builder(getActivity());
-      View colorDialogView = 
+      View colorDialogView =
          getActivity().getLayoutInflater().inflate(
             R.layout.fragment_color, null);
       builder.setView(colorDialogView); // add GUI to dialog
-      
-      // set the AlertDialog's message 
+
+      // set the AlertDialog's message
       builder.setTitle(R.string.title_color_dialog);
-      builder.setCancelable(true);               
-      
+      builder.setCancelable(true);
+
       // get the color SeekBars and set their onChange listeners
       alphaSeekBar = (SeekBar) colorDialogView.findViewById(
          R.id.alphaSeekBar);
@@ -54,43 +57,47 @@ public class ColorDialogFragment extends DialogFragment
       redSeekBar.setOnSeekBarChangeListener(colorChangedListener);
       greenSeekBar.setOnSeekBarChangeListener(colorChangedListener);
       blueSeekBar.setOnSeekBarChangeListener(colorChangedListener);
-     
+
       // use current drawing color to set SeekBar values
       final DoodleView doodleView = getDoodleFragment().getDoodleView();
-      color = doodleView.getDrawingColor();
+      color = settingBgColor ? doodleView.getBgColor() : doodleView.getDrawingColor();
       alphaSeekBar.setProgress(Color.alpha(color));
       redSeekBar.setProgress(Color.red(color));
       greenSeekBar.setProgress(Color.green(color));
-      blueSeekBar.setProgress(Color.blue(color));        
-      
+      blueSeekBar.setProgress(Color.blue(color));
+
       // add Set Color Button
       builder.setPositiveButton(R.string.button_set_color,
-         new DialogInterface.OnClickListener() 
+         new DialogInterface.OnClickListener()
          {
-            public void onClick(DialogInterface dialog, int id) 
+            public void onClick(DialogInterface dialog, int id)
             {
-               doodleView.setDrawingColor(color); 
-            } 
-         } 
+               if (settingBgColor) {
+                  doodleView.setBgColor(color);
+               } else {
+                  doodleView.setDrawingColor(color);
+               }
+            }
+         }
       ); // end call to setPositiveButton
-      
+
       return builder.create(); // return dialog
-   } // end method onCreateDialog   
-   
+   } // end method onCreateDialog
+
    // gets a reference to the DoodleFragment
    private DoodleFragment getDoodleFragment()
    {
       return (DoodleFragment) getFragmentManager().findFragmentById(
          R.id.doodleFragment);
    }
-   
+
    // tell DoodleFragment that dialog is now displayed
    @Override
    public void onAttach(Activity activity)
    {
       super.onAttach(activity);
       DoodleFragment fragment = getDoodleFragment();
-      
+
       if (fragment != null)
          fragment.setDialogOnScreen(true);
    }
@@ -101,32 +108,32 @@ public class ColorDialogFragment extends DialogFragment
    {
       super.onDetach();
       DoodleFragment fragment = getDoodleFragment();
-      
+
       if (fragment != null)
          fragment.setDialogOnScreen(false);
    }
-   
+
    // OnSeekBarChangeListener for the SeekBars in the color dialog
-   private OnSeekBarChangeListener colorChangedListener = 
-     new OnSeekBarChangeListener() 
+   private OnSeekBarChangeListener colorChangedListener =
+     new OnSeekBarChangeListener()
    {
       // display the updated color
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress,
-         boolean fromUser) 
-      {      
+         boolean fromUser)
+      {
          if (fromUser) // user, not program, changed SeekBar progress
-            color = Color.argb(alphaSeekBar.getProgress(), 
-               redSeekBar.getProgress(), greenSeekBar.getProgress(), 
+            color = Color.argb(alphaSeekBar.getProgress(),
+               redSeekBar.getProgress(), greenSeekBar.getProgress(),
                blueSeekBar.getProgress());
          colorView.setBackgroundColor(color);
-      } 
-      
+      }
+
       @Override
       public void onStartTrackingTouch(SeekBar seekBar) // required
       {
-      } 
-      
+      }
+
       @Override
       public void onStopTrackingTouch(SeekBar seekBar) // required
       {
