@@ -11,6 +11,21 @@
         android:title="@string/menuitem_line_width">
     </item>
     <item
+        android:id="@+id/background"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_background">
+    </item>
+    <item
+        android:id="@+id/rectangle"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_rectangle">
+    </item>
+    <item
+        android:id="@+id/oval"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_oval">
+    </item>
+    <item
         android:id="@+id/eraser"
         android:showAsAction="ifRoom"
         android:title="@string/menuitem_eraser">
@@ -31,4 +46,4 @@
         android:title="@string/menuitem_print">
     </item>
 
-</menu><!-- From: file:/Users/brianb/Courses/BIT%20272/Exercises%20on%20Github/HTP-chapter07/app/src/main/res/menu-v19/doodle_fragment_menu.xml -->
+</menu><!-- From: file:/C:/Users/Hiromi/Documents/Cascadia_2015/Fall_2015/BIT_272/BIT272_GitHub/HTP-chapter07/app/src/main/res/menu-v19/doodle_fragment_menu.xml -->

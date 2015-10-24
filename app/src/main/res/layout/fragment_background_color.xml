@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/colorDialogGridLayout"
+    android:id="@+id/backgroundColorDialogGridLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:columnCount="2"
@@ -71,4 +71,4 @@
         android:layout_gravity="fill_horizontal" />
 
 </GridLayout>
-<!-- From: file:/C:/Users/Hiromi/Documents/Cascadia_2015/Fall_2015/BIT_272/BIT272_GitHub/HTP-chapter07/app/src/main/res/layout/fragment_color.xml -->
+

@@ -20,35 +20,35 @@ import android.view.ViewGroup;
 public class DoodleFragment extends Fragment
 {
    private DoodleView doodleView; // handles touch events and draws
-   private float acceleration; 
-   private float currentAcceleration; 
-   private float lastAcceleration; 
+   private float acceleration;
+   private float currentAcceleration;
+   private float lastAcceleration;
    private boolean dialogOnScreen = false;
-   
+
    // value used to determine whether user shook the device to erase
    private static final int ACCELERATION_THRESHOLD = 100000;
 
    // called when Fragment's view needs to be created
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState)
+                            Bundle savedInstanceState)
    {
-      super.onCreateView(inflater, container, savedInstanceState);    
-      View view = 
-         inflater.inflate(R.layout.fragment_doodle, container, false);
-               
+      super.onCreateView(inflater, container, savedInstanceState);
+      View view =
+              inflater.inflate(R.layout.fragment_doodle, container, false);
+
       setHasOptionsMenu(true); // this fragment has menu items to display
 
       // get reference to the DoodleView
       doodleView = (DoodleView) view.findViewById(R.id.doodleView);
-      
+
       // initialize acceleration values
-      acceleration = 0.00f; 
-      currentAcceleration = SensorManager.GRAVITY_EARTH;    
-      lastAcceleration = SensorManager.GRAVITY_EARTH;    
+      acceleration = 0.00f;
+      currentAcceleration = SensorManager.GRAVITY_EARTH;
+      lastAcceleration = SensorManager.GRAVITY_EARTH;
       return view;
    }
-      
+
    // start listening for sensor events 
    @Override
    public void onStart()
@@ -61,16 +61,16 @@ public class DoodleFragment extends Fragment
    public void enableAccelerometerListening()
    {
       // get the SensorManager
-      SensorManager sensorManager = 
-         (SensorManager) getActivity().getSystemService(
-            Context.SENSOR_SERVICE);
+      SensorManager sensorManager =
+              (SensorManager) getActivity().getSystemService(
+                      Context.SENSOR_SERVICE);
 
       // register to listen for accelerometer events
-      sensorManager.registerListener(sensorEventListener, 
-         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), 
-         SensorManager.SENSOR_DELAY_NORMAL);
-   } 
-   
+      sensorManager.registerListener(sensorEventListener,
+              sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+              SensorManager.SENSOR_DELAY_NORMAL);
+   }
+
    // stop listening for sensor events
    @Override
    public void onPause()
@@ -78,65 +78,66 @@ public class DoodleFragment extends Fragment
       super.onPause();
       disableAccelerometerListening(); // stop listening for shake 
    }
- 
+
    // disable listening for accelerometer events
    public void disableAccelerometerListening()
    {
       // get the SensorManager
-      SensorManager sensorManager = 
-         (SensorManager) getActivity().getSystemService(
-            Context.SENSOR_SERVICE);
+      SensorManager sensorManager =
+              (SensorManager) getActivity().getSystemService(
+                      Context.SENSOR_SERVICE);
 
       // stop listening for accelerometer events
-      sensorManager.unregisterListener(sensorEventListener, 
-         sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));         
-   } 
+      sensorManager.unregisterListener(sensorEventListener,
+              sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER));
+   }
 
    // event handler for accelerometer events
-   private SensorEventListener sensorEventListener = 
-      new SensorEventListener()
-      {
-         // use accelerometer to determine whether user shook device 
-         @Override
-         public void onSensorChanged(SensorEvent event)
-         {  
-            // ensure that other dialogs are not displayed
-            if (!dialogOnScreen)
-            {
-               // get x, y, and z values for the SensorEvent
-               float x = event.values[0];
-               float y = event.values[1];
-               float z = event.values[2];
-      
-               // save previous acceleration value
-               lastAcceleration = currentAcceleration;
-      
-               // calculate the current acceleration
-               currentAcceleration = x * x + y * y + z * z;
-      
-               // calculate the change in acceleration
-               acceleration = currentAcceleration * 
-                  (currentAcceleration - lastAcceleration);
-      
-               // if the acceleration is above a certain threshold
-               if (acceleration > ACCELERATION_THRESHOLD)
-                  confirmErase();
-            } 
-         } // end method onSensorChanged
-      
-         // required method of interface SensorEventListener
-         @Override
-         public void onAccuracyChanged(Sensor sensor, int accuracy)
-         {
-         } 
-      }; // end anonymous inner class 
-   
+   private SensorEventListener sensorEventListener =
+           new SensorEventListener()
+           {
+              // use accelerometer to determine whether user shook device
+              @Override
+              public void onSensorChanged(SensorEvent event)
+              {
+                 // ensure that other dialogs are not displayed
+                 if (!dialogOnScreen)
+                 {
+                    // get x, y, and z values for the SensorEvent
+                    float x = event.values[0];
+                    float y = event.values[1];
+                    float z = event.values[2];
+
+                    // save previous acceleration value
+                    lastAcceleration = currentAcceleration;
+
+                    // calculate the current acceleration
+                    currentAcceleration = x * x + y * y + z * z;
+
+                    // calculate the change in acceleration
+                    acceleration = currentAcceleration *
+                            (currentAcceleration - lastAcceleration);
+
+                    // if the acceleration is above a certain threshold
+                    if (acceleration > ACCELERATION_THRESHOLD)
+                       confirmErase();
+                 }
+              } // end method onSensorChanged
+
+              // required method of interface SensorEventListener
+              @Override
+              public void onAccuracyChanged(Sensor sensor, int accuracy)
+              {
+              }
+           }; // end anonymous inner class
+
    // confirm whether image should be erased
    private void confirmErase()
    {
       EraseImageDialogFragment fragment = new EraseImageDialogFragment();
       fragment.show(getFragmentManager(), "erase dialog");
    } // end method confirmErase
+
 
    // display this fragment's menu items
    @Override
@@ -148,19 +149,29 @@ public class DoodleFragment extends Fragment
 
    // handle choice from options menu
    @Override
-   public boolean onOptionsItemSelected(MenuItem item) 
+   public boolean onOptionsItemSelected(MenuItem item)
    {
       // switch based on the MenuItem id
-      switch (item.getItemId()) 
+      switch (item.getItemId())
       {
          case R.id.color:
-            ColorDialogFragment colorDialog = new ColorDialogFragment();      
+            ColorDialogFragment colorDialog = new ColorDialogFragment();
             colorDialog.show(getFragmentManager(), "color dialog");
             return true; // consume the menu event
          case R.id.lineWidth:
-            LineWidthDialogFragment widthdialog = 
-               new LineWidthDialogFragment();      
+            LineWidthDialogFragment widthdialog =
+                    new LineWidthDialogFragment();
             widthdialog.show(getFragmentManager(), "line width dialog");
+            return true; // consume the menu event
+         case R.id.background:
+            BackgroundDialogFragment colorBackgroundDialog = new BackgroundDialogFragment();
+            colorBackgroundDialog.show(getFragmentManager(), "background color dialog");
+            return true; // consume the menu event
+         case R.id.rectangle:
+            doodleView.drawRectangle();
+            return true; // consume the menu event
+         case R.id.oval:
+            doodleView.drawOval();
             return true; // consume the menu event
          case R.id.eraser:
             doodleView.setDrawingColor(Color.WHITE); // line color white
@@ -168,17 +179,17 @@ public class DoodleFragment extends Fragment
          case R.id.clear:
             confirmErase(); // confirm before erasing image
             return true; // consume the menu event
-         case R.id.save:     
+         case R.id.save:
             doodleView.saveImage(); // save the current image
             return true; // consume the menu event
-         case R.id.print:     
+         case R.id.print:
             doodleView.printImage(); // print the current images
             return true; // consume the menu event
       } // end switch
 
       return super.onOptionsItemSelected(item); // call super's method
    } // end method onOptionsItemSelected
-   
+
    // returns the DoodleView
    public DoodleView getDoodleView()
    {
@@ -188,7 +199,7 @@ public class DoodleFragment extends Fragment
    // indicates whether a dialog is displayed
    public void setDialogOnScreen(boolean visible)
    {
-      dialogOnScreen = visible;  
+      dialogOnScreen = visible;
    }
 }
 
