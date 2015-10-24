@@ -157,6 +157,10 @@ public class DoodleFragment extends Fragment
             ColorDialogFragment colorDialog = new ColorDialogFragment();      
             colorDialog.show(getFragmentManager(), "color dialog");
             return true; // consume the menu event
+         case R.id.bgColor:
+            BackColorDialogFragment backColorDialog = new BackColorDialogFragment();
+            backColorDialog.show(getFragmentManager(), "color dialog");
+            return true;
          case R.id.lineWidth:
             LineWidthDialogFragment widthdialog = 
                new LineWidthDialogFragment();      

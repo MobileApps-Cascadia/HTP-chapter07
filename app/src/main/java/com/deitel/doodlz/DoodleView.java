@@ -84,12 +84,22 @@ public class DoodleView extends View
    public void setDrawingColor(int color) 
    {
       paintLine.setColor(color);
-   } 
+   }
+
+   public void setBackColor(int color)
+   {
+      paintScreen.setColor(color);
+   }
 
    // return the painted line's color
    public int getDrawingColor() 
    {
       return paintLine.getColor();
+   }
+
+   public int getBackColor()
+   {
+      return paintScreen.getColor();
    }
 
    // set the painted line's width
