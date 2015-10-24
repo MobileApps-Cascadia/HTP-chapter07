@@ -162,8 +162,12 @@ public class DoodleFragment extends Fragment
                new LineWidthDialogFragment();      
             widthdialog.show(getFragmentManager(), "line width dialog");
             return true; // consume the menu event
+         case R.id.shapeSelector:
+            ShapeDialogFragment shapeDialog = new ShapeDialogFragment();
+            shapeDialog.show(getFragmentManager(), "shape selection dialog");
+            return true; // consume the menu event
          case R.id.eraser:
-            doodleView.setDrawingColor(Color.WHITE); // line color white
+            doodleView.setDrawingColor(doodleView.getBackgroundColor()); // line color same as background
             return true; // consume the menu event
          case R.id.clear:
             confirmErase(); // confirm before erasing image

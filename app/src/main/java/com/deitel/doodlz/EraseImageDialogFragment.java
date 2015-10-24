@@ -29,10 +29,20 @@ public class EraseImageDialogFragment extends DialogFragment
          {
             public void onClick(DialogInterface dialog, int id) 
             {
-               getDoodleFragment().getDoodleView().clear(); // clear image
+               getDoodleFragment().getDoodleView().clear(false); // clear image
             } 
          } 
       ); // end call to setPositiveButton
+
+      builder.setNeutralButton(R.string.button_keep_bg,
+         new DialogInterface.OnClickListener()
+         {
+            public void onClick(DialogInterface dialog, int id)
+            {
+               getDoodleFragment().getDoodleView().clear(true); // clear image, keep background
+            }
+         }
+      );
    
       // add Cancel Button
       builder.setNegativeButton(R.string.button_cancel, null);

@@ -73,6 +73,17 @@ public class ColorDialogFragment extends DialogFragment
             } 
          } 
       ); // end call to setPositiveButton
+
+      // add Set Background Button
+      builder.setNegativeButton(R.string.button_set_background,
+         new DialogInterface.OnClickListener()
+         {
+            public void onClick(DialogInterface dialog, int id)
+            {
+               doodleView.setBackgroundColor(color);
+            }
+         }
+      );
       
       return builder.create(); // return dialog
    } // end method onCreateDialog   
