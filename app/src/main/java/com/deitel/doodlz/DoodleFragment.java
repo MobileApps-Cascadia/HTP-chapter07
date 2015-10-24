@@ -24,6 +24,7 @@ public class DoodleFragment extends Fragment
    private float currentAcceleration; 
    private float lastAcceleration; 
    private boolean dialogOnScreen = false;
+   private int color;
    
    // value used to determine whether user shook the device to erase
    private static final int ACCELERATION_THRESHOLD = 100000;
@@ -162,8 +163,21 @@ public class DoodleFragment extends Fragment
                new LineWidthDialogFragment();      
             widthdialog.show(getFragmentManager(), "line width dialog");
             return true; // consume the menu event
+
          case R.id.eraser:
-            doodleView.setDrawingColor(Color.WHITE); // line color white
+            color = doodleView.getBackgroundColor();
+            doodleView.setDrawingColor(color);
+
+            //doodleView.setDrawingColor(Color.WHITE); // line color white
+            return true; // consume the menu event
+
+         case R.id.backgroundcolor:
+            BackgroundColorDialogFragment backgroundcolorDialog = new BackgroundColorDialogFragment();
+            backgroundcolorDialog.show(getFragmentManager(), "background dialog");
+            return true; // consume the menu event
+
+         case R.id.rectangle:
+            doodleView.rectangle();
             return true; // consume the menu event
          case R.id.clear:
             confirmErase(); // confirm before erasing image

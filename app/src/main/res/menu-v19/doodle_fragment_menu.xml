@@ -16,6 +16,16 @@
         android:title="@string/menuitem_eraser">
     </item>
     <item
+        android:id="@+id/backgroundcolor"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_backgroundcolor">
+    </item>
+    <item
+        android:id="@+id/rectangle"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_rectangle">
+    </item>
+    <item
         android:id="@+id/clear"
         android:showAsAction="ifRoom"
         android:title="@string/menuitem_clear">
