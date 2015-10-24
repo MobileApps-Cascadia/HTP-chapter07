@@ -33,11 +33,14 @@ public class DoodleView extends View
    private Canvas bitmapCanvas; // used to draw on bitmap
    private final Paint paintScreen; // used to draw bitmap onto screen
    private final Paint paintLine; // used to draw lines onto bitmap
-   
+   private final Paint paintRectangle;
    // Maps of current Paths being drawn and Points in those Paths
    private final Map<Integer, Path> pathMap = new HashMap<Integer, Path>(); 
    private final Map<Integer, Point> previousPointMap = 
       new HashMap<Integer, Point>();
+
+   private int downX, downY, upX, upY;
+   private boolean drawRectangle;
    
    // used to hide/show system bars 
    private GestureDetector singleTapDetector; 
@@ -47,7 +50,7 @@ public class DoodleView extends View
    {
       super(context, attrs); // pass context to View's constructor 
       paintScreen = new Paint(); // used to display bitmap onto screen
-
+      paintRectangle = new Paint();
       // set the initial display settings for the painted line
       paintLine = new Paint();
       paintLine.setAntiAlias(true); // smooth edges of drawn line
@@ -55,7 +58,13 @@ public class DoodleView extends View
       paintLine.setStyle(Paint.Style.STROKE); // solid line
       paintLine.setStrokeWidth(5); // set the default line width
       paintLine.setStrokeCap(Paint.Cap.ROUND); // rounded line ends
-      
+      paintScreen.setStyle(Paint.Style.FILL);
+      paintScreen.setColor(Color.WHITE);
+      //bitmap = Bitmap.createBitmap(getWidth(), getHeight(),
+      //        Bitmap.Config.ARGB_8888);
+      //bitmapCanvas = new Canvas(bitmap);
+      //bitmapCanvas.drawPaint(paintScreen);
+
       // GestureDetector for single taps
       singleTapDetector = 
          new GestureDetector(getContext(), singleTapListener);
@@ -69,6 +78,7 @@ public class DoodleView extends View
          Bitmap.Config.ARGB_8888);
       bitmapCanvas = new Canvas(bitmap);
       bitmap.eraseColor(Color.WHITE); // erase the Bitmap with white
+
    } 
    
    // clear the painting
@@ -76,10 +86,32 @@ public class DoodleView extends View
    {
       pathMap.clear(); // remove all paths
       previousPointMap.clear(); // remove all previous points
-      bitmap.eraseColor(Color.WHITE); // clear the bitmap 
+      bitmap.eraseColor(Color.WHITE); // clear the bitmap
       invalidate(); // refresh the screen
    }
-   
+
+   public void rectangle()
+   {
+      drawRectangle = true;
+      //bitmapCanvas.drawRect(downX, downY, upX, upY, paintRectangle);
+   }
+
+   // set the background color
+   public void setBackgroundColor(int color)
+   {
+      paintScreen.setStyle(Paint.Style.FILL);
+      paintScreen.setColor(color);
+      bitmapCanvas.drawPaint(paintScreen);
+   }
+
+   // return the background color
+   public int getBackgroundColor()
+   {
+      return paintScreen.getColor();
+   }
+
+
+
    // set the painted line's color
    public void setDrawingColor(int color) 
    {
@@ -173,14 +205,22 @@ public class DoodleView extends View
       {
          touchStarted(event.getX(actionIndex), event.getY(actionIndex), 
             event.getPointerId(actionIndex));
+         downX = (int) event.getX(actionIndex);
+         downY = (int) event.getY(actionIndex);
       } 
       else if (action == MotionEvent.ACTION_UP ||
          action == MotionEvent.ACTION_POINTER_UP) 
       {
          touchEnded(event.getPointerId(actionIndex));
+         upX = (int) event.getX();
+         upY = (int) event.getY();
+         if (drawRectangle) {
+            paintRectangle.setStyle(Paint.Style.STROKE);
+            bitmapCanvas.drawRect(downX, downY, upX, upY, paintRectangle);
+            drawRectangle = false;
+         }
       } 
-      else 
-      {
+      else {
          touchMoved(event); 
       }
       

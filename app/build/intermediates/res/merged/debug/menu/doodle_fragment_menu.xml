@@ -15,6 +15,19 @@
         android:showAsAction="ifRoom"
         android:title="@string/menuitem_eraser">
     </item>
+
+    <item
+        android:id="@+id/backgroundcolor"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_backgroundcolor">
+    </item>
+
+    <item
+        android:id="@+id/rectangle"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_rectangle">
+    </item>
+
     <item
         android:id="@+id/clear"
         android:showAsAction="ifRoom"
@@ -26,4 +39,4 @@
         android:title="@string/menuitem_save">
     </item>
 
-</menu><!-- From: file:/Users/brianb/Courses/BIT%20272/Exercises%20on%20Github/HTP-chapter07/app/src/main/res/menu/doodle_fragment_menu.xml -->
+</menu><!-- From: file:/C:/Users/pknayyar/Documents/GitHub/New_All/HTP-chapter07/app/src/main/res/menu/doodle_fragment_menu.xml -->
