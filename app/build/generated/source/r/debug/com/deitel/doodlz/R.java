@@ -18,35 +18,52 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int smiley_face=0x7f020001;
+        public static final int yellow_notepad_drawable=0x7f020002;
     }
     public static final class id {
-        public static final int alphaSeekBar=0x7f080003;
-        public static final int alphaTextView=0x7f080002;
-        public static final int blueSeekBar=0x7f080009;
-        public static final int blueTextView=0x7f080008;
-        public static final int clear=0x7f080012;
-        public static final int color=0x7f08000f;
-        public static final int colorDialogGridLayout=0x7f080001;
-        public static final int colorView=0x7f08000a;
+        public static final int alphaSeekBar=0x7f08000d;
+        public static final int alphaTextView=0x7f08000c;
+        public static final int beeImageView=0x7f08000a;
+        public static final int beeRadioButton=0x7f080005;
+        public static final int blueSeekBar=0x7f080013;
+        public static final int blueTextView=0x7f080012;
+        public static final int clear=0x7f08001c;
+        public static final int color=0x7f080019;
+        public static final int colorDialogGridLayout=0x7f08000b;
+        public static final int colorView=0x7f080014;
+        public static final int coloredBackgroundImageView=0x7f080007;
+        public static final int coloredBackgroundRadioButton=0x7f080002;
         public static final int doodleFragment=0x7f080000;
-        public static final int doodleView=0x7f08000b;
-        public static final int eraser=0x7f080011;
-        public static final int greenSeekBar=0x7f080007;
-        public static final int greenTextView=0x7f080006;
-        public static final int lineWidth=0x7f080010;
-        public static final int lineWidthDialogGridLayout=0x7f08000c;
-        public static final int print=0x7f080014;
-        public static final int redSeekBar=0x7f080005;
-        public static final int redTextView=0x7f080004;
-        public static final int save=0x7f080013;
-        public static final int widthImageView=0x7f08000d;
-        public static final int widthSeekBar=0x7f08000e;
+        public static final int doodleView=0x7f080015;
+        public static final int drawCircle=0x7f080020;
+        public static final int drawRectangle=0x7f08001f;
+        public static final int eraser=0x7f08001b;
+        public static final int fillShape=0x7f080021;
+        public static final int greenSeekBar=0x7f080011;
+        public static final int greenTextView=0x7f080010;
+        public static final int lineWidth=0x7f08001a;
+        public static final int lineWidthDialogGridLayout=0x7f080016;
+        public static final int noBackgroundRadioButton=0x7f080006;
+        public static final int print=0x7f080022;
+        public static final int radioGroup=0x7f080001;
+        public static final int redSeekBar=0x7f08000f;
+        public static final int redTextView=0x7f08000e;
+        public static final int save=0x7f08001d;
+        public static final int setBackground=0x7f08001e;
+        public static final int smileyImageView=0x7f080009;
+        public static final int smileyRadioButton=0x7f080004;
+        public static final int widthImageView=0x7f080017;
+        public static final int widthSeekBar=0x7f080018;
+        public static final int yellowNotepadRadioButton=0x7f080003;
+        public static final int yellowPadImageView=0x7f080008;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int fragment_color=0x7f030001;
-        public static final int fragment_doodle=0x7f030002;
-        public static final int fragment_line_width=0x7f030003;
+        public static final int fragment_background=0x7f030001;
+        public static final int fragment_color=0x7f030002;
+        public static final int fragment_doodle=0x7f030003;
+        public static final int fragment_line_width=0x7f030004;
     }
     public static final class menu {
         public static final int doodle_fragment_menu=0x7f070000;
@@ -62,18 +79,23 @@ public final class R {
         public static final int label_green=0x7f060007;
         public static final int label_red=0x7f060008;
         public static final int line_imageview_description=0x7f060009;
-        public static final int menuitem_clear=0x7f06000a;
-        public static final int menuitem_color=0x7f06000b;
-        public static final int menuitem_eraser=0x7f06000c;
-        public static final int menuitem_line_width=0x7f06000d;
-        public static final int menuitem_print=0x7f06000e;
-        public static final int menuitem_save=0x7f06000f;
-        public static final int message_erase=0x7f060010;
-        public static final int message_error_printing=0x7f060011;
-        public static final int message_error_saving=0x7f060012;
-        public static final int message_saved=0x7f060013;
-        public static final int title_color_dialog=0x7f060014;
-        public static final int title_line_width_dialog=0x7f060015;
+        public static final int menuitem_circle=0x7f06000a;
+        public static final int menuitem_clear=0x7f06000b;
+        public static final int menuitem_color=0x7f06000c;
+        public static final int menuitem_eraser=0x7f06000d;
+        public static final int menuitem_fill_shape=0x7f06000e;
+        public static final int menuitem_line_width=0x7f06000f;
+        public static final int menuitem_print=0x7f060010;
+        public static final int menuitem_rectangle=0x7f060011;
+        public static final int menuitem_save=0x7f060012;
+        public static final int menuitem_set_background=0x7f060013;
+        public static final int message_erase=0x7f060014;
+        public static final int message_error_printing=0x7f060015;
+        public static final int message_error_saving=0x7f060016;
+        public static final int message_saved=0x7f060017;
+        public static final int title_background_dialog=0x7f060018;
+        public static final int title_color_dialog=0x7f060019;
+        public static final int title_line_width_dialog=0x7f06001a;
     }
     public static final class style {
         /**  API 11 theme customizations can go here. 
