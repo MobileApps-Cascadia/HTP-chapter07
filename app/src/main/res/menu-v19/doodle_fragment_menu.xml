@@ -1,6 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/bgColor"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_bgColor">
+    </item>
+    <item
         android:id="@+id/color"
         android:showAsAction="ifRoom"
         android:title="@string/menuitem_color">
