@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:rowCount="1">
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_column="0"
+        android:id="@+id/radioGroup">
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Light Green"
+        android:id="@+id/coloredBackgroundRadioButton" />
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yellow notepad"
+        android:id="@+id/yellowNotepadRadioButton" />
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Smiley"
+        android:id="@+id/smileyRadioButton" />
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bee"
+        android:id="@+id/beeRadioButton" />
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No background"
+        android:id="@+id/noBackgroundRadioButton" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_column="1"
+        android:layout_gravity="center_horizontal">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/coloredBackgroundImageView"
+            android:background="@android:color/holo_green_light"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_gravity="center"
+            android:padding="2dp"
+            android:layout_margin="1dp"
+             />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/yellowPadImageView"
+            android:background="@drawable/yellow_notepad_drawable"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_gravity="center"
+            android:padding="2dp"
+            android:layout_margin="1dp" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/smileyImageView"
+            android:background="@drawable/smiley_face"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:layout_margin="1dp"
+            android:clickable="false"
+            android:scaleType="center" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/beeImageView"
+            android:focusable="false"
+            android:layout_gravity="center"
+            android:padding="1dp"
+            android:background="@drawable/ic_launcher"
+            android:clickable="false" />
+    </LinearLayout>
+</GridLayout>
