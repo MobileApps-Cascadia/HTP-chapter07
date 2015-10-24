@@ -36,6 +36,14 @@ public class DoodleView extends View
    private final Paint paintLine; // used to draw lines onto bitmap
 
    private int backgroundColor; // used to remember the current background color
+
+   private DrawingMode currentMode; // used to determine what shape to draw
+
+   // floats for keeping track of start and end points for both rectangles and ovals
+   float rStartX; //starting point
+   float rStartY; //starting point
+   float rx; // ending point
+   float ry; // ending point
    
    // Maps of current Paths being drawn and Points in those Paths
    private final Map<Integer, Path> pathMap = new HashMap<Integer, Path>(); 
@@ -61,6 +69,8 @@ public class DoodleView extends View
       paintLine.setStrokeCap(Paint.Cap.ROUND); // rounded line ends
 
       backgroundColor = Color.WHITE; // default background to white
+
+      currentMode = DrawingMode.LINE; // default drawing mode is to use a line
       
       // GestureDetector for single taps
       singleTapDetector = 
@@ -83,6 +93,7 @@ public class DoodleView extends View
       pathMap.clear(); // remove all paths
       previousPointMap.clear(); // remove all previous points
       ovalMap.clear();
+      rectMap.clear();
 
       if (keepBackground)
          bitmap.eraseColor(backgroundColor); // clear the bitmap to the background color
@@ -123,6 +134,11 @@ public class DoodleView extends View
 
    public int getBackgroundColor() { return backgroundColor; }
 
+   public void setShape(DrawingMode mode)
+   {
+      currentMode = mode;
+   }
+
    // called each time this View is drawn
    @Override
    protected void onDraw(Canvas canvas) 
@@ -133,6 +149,12 @@ public class DoodleView extends View
       // for each path currently being drawn
       for (Integer key : pathMap.keySet()) 
          canvas.drawPath(pathMap.get(key), paintLine); // draw line
+
+      for (Integer key : ovalMap.keySet())
+         canvas.drawOval(ovalMap.get(key), paintLine); // draw oval
+
+      for (Integer key : rectMap.keySet())
+         canvas.drawRect(rectMap.get(key), paintLine); // draw rectangle
    } 
 
    // hide system bars and action bar
@@ -210,77 +232,128 @@ public class DoodleView extends View
    // called when the user touches the screen
    private void touchStarted(float x, float y, int lineID) 
    {
-      Path path; // used to store the path for the given touch id
       Point point; // used to store the last point in path
 
-      // if there is already a path for lineID
-      if (pathMap.containsKey(lineID)) 
-      {
-         path = pathMap.get(lineID); // get the Path
-         path.reset(); // reset the Path because a new touch has started
-         point = previousPointMap.get(lineID); // get Path's last point
-      }
-      else 
-      {
-         path = new Path(); 
-         pathMap.put(lineID, path); // add the Path to Map
-         point = new Point(); // create a new Point
-         previousPointMap.put(lineID, point); // add the Point to the Map
-      }
+      if (currentMode == DrawingMode.LINE) {
+         Path path; // used to store the path for the given touch id
 
-      // move to the coordinates of the touch
-      path.moveTo(x, y);
-      point.x = (int) x;
-      point.y = (int) y;
+         // if there is already a path for lineID
+         if (pathMap.containsKey(lineID)) {
+            path = pathMap.get(lineID); // get the Path
+            path.reset(); // reset the Path because a new touch has started
+            point = previousPointMap.get(lineID); // get Path's last point
+         } else {
+            path = new Path();
+            pathMap.put(lineID, path); // add the Path to Map
+            point = new Point(); // create a new Point
+            previousPointMap.put(lineID, point); // add the Point to the Map
+         }
+
+         // move to the coordinates of the touch
+         path.moveTo(x, y);
+         point.x = (int) x;
+         point.y = (int) y;
+      }
+      else // both ovals and rectangles use RectF to draw.
+      {
+         rStartX = rx = x;
+         rStartY = ry = y;
+         RectF shape = new RectF(rStartX, rStartY, rx, ry);
+         if (currentMode == DrawingMode.OVAL)
+            ovalMap.put(lineID, shape);
+         else
+            rectMap.put(lineID, shape);
+
+      }
    } // end method touchStarted
 
    // called when the user drags along the screen
-   private void touchMoved(MotionEvent event) 
-   {
-      // for each of the pointers in the given MotionEvent
-      for (int i = 0; i < event.getPointerCount(); i++) 
+   private void touchMoved(MotionEvent event) {
+      if (currentMode == DrawingMode.LINE)
       {
-         // get the pointer ID and pointer index
-         int pointerID = event.getPointerId(i);
-         int pointerIndex = event.findPointerIndex(pointerID);
-            
-         // if there is a path associated with the pointer
-         if (pathMap.containsKey(pointerID)) 
+         // for each of the pointers in the given MotionEvent
+         for (int i = 0; i < event.getPointerCount(); i++) {
+            // get the pointer ID and pointer index
+            int pointerID = event.getPointerId(i);
+            int pointerIndex = event.findPointerIndex(pointerID);
+
+            // if there is a path associated with the pointer
+            if (pathMap.containsKey(pointerID)) {
+               // get the new coordinates for the pointer
+               float newX = event.getX(pointerIndex);
+               float newY = event.getY(pointerIndex);
+
+               // get the Path and previous Point associated with
+               // this pointer
+               Path path = pathMap.get(pointerID);
+               Point point = previousPointMap.get(pointerID);
+
+               // calculate how far the user moved from the last update
+               float deltaX = Math.abs(newX - point.x);
+               float deltaY = Math.abs(newY - point.y);
+
+               // if the distance is significant enough to matter
+               if (deltaX >= TOUCH_TOLERANCE || deltaY >= TOUCH_TOLERANCE) {
+                  // move the path to the new location
+                  path.quadTo(point.x, point.y, (newX + point.x) / 2,
+                          (newY + point.y) / 2);
+
+                  // store the new coordinates
+                  point.x = (int) newX;
+                  point.y = (int) newY;
+               }
+            }
+         }
+      }
+      else
+      {
+         int id = event.getPointerId(0);
+         int idx = event.findPointerIndex(id);
+
+         rx = event.getX(idx);
+         ry = event.getY(idx);
+
+         RectF shape;
+
+         if (currentMode == DrawingMode.OVAL && ovalMap.containsKey(id))
+            shape = ovalMap.get(id);
+         else if (currentMode == DrawingMode.RECT && rectMap.containsKey(id))
+            shape = rectMap.get(id);
+         else
+            return;
+
+         float deltaX = Math.abs(rx - rStartX);
+         float deltaY = Math.abs(ry - rStartY);
+
+         if (deltaX >= TOUCH_TOLERANCE || deltaY >= TOUCH_TOLERANCE)
          {
-            // get the new coordinates for the pointer
-            float newX = event.getX(pointerIndex);
-            float newY = event.getY(pointerIndex);
-            
-            // get the Path and previous Point associated with 
-            // this pointer
-            Path path = pathMap.get(pointerID);
-            Point point = previousPointMap.get(pointerID);
-            
-            // calculate how far the user moved from the last update
-            float deltaX = Math.abs(newX - point.x);
-            float deltaY = Math.abs(newY - point.y);
-
-            // if the distance is significant enough to matter
-            if (deltaX >= TOUCH_TOLERANCE || deltaY >= TOUCH_TOLERANCE) 
-            {
-               // move the path to the new location
-               path.quadTo(point.x, point.y, (newX + point.x) / 2,
-                  (newY + point.y) / 2);
-
-               // store the new coordinates
-               point.x = (int) newX;
-               point.y = (int) newY;
-            } 
-         } 
+            shape.left = rStartX > rx ? rx : rStartX;
+            shape.top = rStartY > ry ? ry : rStartY;
+            shape.right = rStartX > rx ? rStartX : rx;
+            shape.bottom = rStartY > ry ? rStartY : ry;
+         }
       }
    } // end method touchMoved
 
    // called when the user finishes a touch
    private void touchEnded(int lineID) 
    {
-      Path path = pathMap.get(lineID); // get the corresponding Path
-      bitmapCanvas.drawPath(path, paintLine); // draw to bitmapCanvas
-      path.reset(); // reset the Path
+      if (currentMode == DrawingMode.LINE)
+      {
+         Path path = pathMap.get(lineID); // get the corresponding Path
+         bitmapCanvas.drawPath(path, paintLine); // draw to bitmapCanvas
+         path.reset(); // reset the Path
+      }
+      else if (currentMode == DrawingMode.OVAL)
+      {
+         RectF shape = ovalMap.get(lineID);
+         bitmapCanvas.drawOval(shape, paintLine);
+      }
+      else
+      {
+         RectF shape = rectMap.get(lineID);
+         bitmapCanvas.drawRect(shape, paintLine);
+      }
    } 
 
    // save the current image to the Gallery
@@ -336,6 +409,9 @@ public class DoodleView extends View
          message.show(); 
       }
    }
+
+   // enumeration for drawing mode
+   public enum DrawingMode { LINE, OVAL, RECT };
 } // end class DoodleView
 
 
