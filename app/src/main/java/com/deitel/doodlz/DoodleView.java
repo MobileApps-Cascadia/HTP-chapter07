@@ -7,6 +7,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,6 +17,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v4.print.PrintHelper;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Gravity;
@@ -26,6 +28,8 @@ import android.widget.Toast;
 // the main screen that is painted
 public class DoodleView extends View 
 {
+   private static final String TAG = "DoodleView";
+
    // used to determine whether user moved a finger enough to draw again   
    private static final float TOUCH_TOLERANCE = 10;
 
@@ -41,12 +45,29 @@ public class DoodleView extends View
    
    // used to hide/show system bars 
    private GestureDetector singleTapDetector; 
-      
+
+   private Bitmap backgroundBitmap;
+   private Paint backgroundBitmapPaint;   // paint for image background
+   private Paint backgroundColorPaint;    // paint for colored background
+   private boolean bCircle = false;
+   private boolean bRectangle = false;
+   private Point beginPoint;
+   private Point endPoint;
+   private boolean bFilled = false;
+   private int backgroundRadioButtonID;
+
    // DoodleView constructor initializes the DoodleView
    public DoodleView(Context context, AttributeSet attrs)  
    {
       super(context, attrs); // pass context to View's constructor 
       paintScreen = new Paint(); // used to display bitmap onto screen
+
+      backgroundBitmapPaint = new Paint();
+      backgroundBitmapPaint.setAlpha(90);
+
+      backgroundColorPaint = new Paint();
+      backgroundColorPaint.setColor(getResources().getColor(android.R.color.holo_green_light));
+      //backgroundColorPaint.setColor(Color.CYAN);
 
       // set the initial display settings for the painted line
       paintLine = new Paint();
@@ -59,14 +80,22 @@ public class DoodleView extends View
       // GestureDetector for single taps
       singleTapDetector = 
          new GestureDetector(getContext(), singleTapListener);
+
+      // set backgroundRadioButtonID
+      backgroundRadioButtonID = R.id.noBackgroundRadioButton;
    } 
 
    // Method onSizeChanged creates Bitmap and Canvas after app displays
    @Override 
    public void onSizeChanged(int w, int h, int oldW, int oldH)
    {
-      bitmap = Bitmap.createBitmap(getWidth(), getHeight(), 
-         Bitmap.Config.ARGB_8888);
+      bitmap = Bitmap.createBitmap(getWidth(), getHeight(),
+              Bitmap.Config.ARGB_8888);
+
+      Bitmap tempBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.smiley_face);
+
+      backgroundBitmap = Bitmap.createScaledBitmap(tempBitmap, getWidth(), getHeight(), true);
+
       bitmapCanvas = new Canvas(bitmap);
       bitmap.eraseColor(Color.WHITE); // erase the Bitmap with white
    } 
@@ -111,10 +140,20 @@ public class DoodleView extends View
       // draw the background screen
       canvas.drawBitmap(bitmap, 0, 0, paintScreen);
 
+      if (backgroundRadioButtonID == R.id.yellowNotepadRadioButton ||
+              backgroundRadioButtonID == R.id.smileyRadioButton ||
+              backgroundRadioButtonID == R.id.beeRadioButton) {
+         canvas.drawBitmap(backgroundBitmap, 0, 0, backgroundBitmapPaint);
+      } else if (backgroundRadioButtonID == R.id.coloredBackgroundRadioButton) {
+         backgroundColorPaint.setAlpha(90);
+         canvas.drawRect(0, 0, getWidth(), getHeight(), backgroundColorPaint);
+      }
+
       // for each path currently being drawn
-      for (Integer key : pathMap.keySet()) 
+      for (Integer key : pathMap.keySet())
          canvas.drawPath(pathMap.get(key), paintLine); // draw line
-   } 
+
+   }
 
    // hide system bars and action bar
    public void hideSystemBars()
@@ -177,6 +216,11 @@ public class DoodleView extends View
       else if (action == MotionEvent.ACTION_UP ||
          action == MotionEvent.ACTION_POINTER_UP) 
       {
+         if (bRectangle || bCircle) {
+            // collect the end point of the path
+            endPoint = new Point();
+            endPoint.set((int) event.getX(), (int) event.getY());
+         }
          touchEnded(event.getPointerId(actionIndex));
       } 
       else 
@@ -194,6 +238,11 @@ public class DoodleView extends View
       Path path; // used to store the path for the given touch id
       Point point; // used to store the last point in path
 
+      if (bRectangle || bCircle) {
+         beginPoint = new Point();
+         beginPoint.set((int)x, (int)y);
+      }
+
       // if there is already a path for lineID
       if (pathMap.containsKey(lineID)) 
       {
@@ -207,12 +256,15 @@ public class DoodleView extends View
          pathMap.put(lineID, path); // add the Path to Map
          point = new Point(); // create a new Point
          previousPointMap.put(lineID, point); // add the Point to the Map
+
       }
 
       // move to the coordinates of the touch
       path.moveTo(x, y);
       point.x = (int) x;
       point.y = (int) y;
+
+
    } // end method touchStarted
 
    // called when the user drags along the screen
@@ -231,8 +283,8 @@ public class DoodleView extends View
             // get the new coordinates for the pointer
             float newX = event.getX(pointerIndex);
             float newY = event.getY(pointerIndex);
-            
-            // get the Path and previous Point associated with 
+
+            // get the Path and previous Point associated with
             // this pointer
             Path path = pathMap.get(pointerID);
             Point point = previousPointMap.get(pointerID);
@@ -259,10 +311,55 @@ public class DoodleView extends View
    // called when the user finishes a touch
    private void touchEnded(int lineID) 
    {
+      Log.d(TAG, "in touchEnded. lineID:" + lineID);
+
       Path path = pathMap.get(lineID); // get the corresponding Path
-      bitmapCanvas.drawPath(path, paintLine); // draw to bitmapCanvas
+      if (bRectangle) {
+         //draw rectangle based on the start and end touch
+         Log.d(TAG, "*** Drawing a rectangle ***");
+         Log.d(TAG, "beginPoint " + beginPoint.x + "-" + beginPoint.y + " endPoint " + endPoint.x + "-" +endPoint.y);
+
+         drawRectangle();
+      } else if (bCircle) {
+         //draw circle based on the start and end touch
+         Log.d(TAG, "*** Drawing a circle ***");
+         Log.d(TAG, "beginPoint " + beginPoint.x + "-" + beginPoint.y + " endPoint " + endPoint.x + "-" +endPoint.y);
+
+         drawCircle();
+      }else {
+            bitmapCanvas.drawPath(path, paintLine); // draw to bitmapCanvas
+
+      }
       path.reset(); // reset the Path
-   } 
+   }
+
+   private void drawRectangle() {
+      int left = Math.min(beginPoint.x, endPoint.x);
+      int top = Math.min(beginPoint.y, endPoint.y);
+      int right = Math.max(beginPoint.x, endPoint.x);
+      int bottom = Math.max(beginPoint.y, endPoint.y);
+
+      if (bFilled) {
+         paintLine.setStyle(Paint.Style.FILL);
+      }
+
+      bitmapCanvas.drawRect(left, top, right, bottom, paintLine);
+      paintLine.setStyle(Paint.Style.STROKE);
+   }
+
+   private void drawCircle() {
+      int xCenter = (beginPoint.x + endPoint.x) / 2;
+      int yCenter = (beginPoint.y + endPoint.y) / 2;
+
+      double radius = Math.sqrt(Math.pow(endPoint.x - beginPoint.x,2) + Math.pow(endPoint.y - beginPoint.y , 2))/2;
+      Log.d(TAG, "Circle radius: " + radius);
+      if (bFilled) {
+         paintLine.setStyle(Paint.Style.FILL);
+      }
+      bitmapCanvas.drawCircle(xCenter, yCenter, (float) radius, paintLine);
+      // reset paintLine to stroke
+      paintLine.setStyle(Paint.Style.STROKE);
+   }
 
    // save the current image to the Gallery
    public void saveImage()
@@ -272,16 +369,16 @@ public class DoodleView extends View
       
       // insert the image in the device's gallery
       String location = MediaStore.Images.Media.insertImage(
-         getContext().getContentResolver(), bitmap, name, 
-         "Doodlz Drawing");
+              getContext().getContentResolver(), bitmap, name,
+              "Doodlz Drawing");
 
       if (location != null) // image was saved
       {
          // display a message indicating that the image was saved
          Toast message = Toast.makeText(getContext(), 
             R.string.message_saved, Toast.LENGTH_SHORT);
-         message.setGravity(Gravity.CENTER, message.getXOffset() / 2, 
-            message.getYOffset() / 2);
+         message.setGravity(Gravity.CENTER, message.getXOffset() / 2,
+                 message.getYOffset() / 2);
          message.show();
       }
       else      
@@ -316,6 +413,40 @@ public class DoodleView extends View
             message.getYOffset() / 2);
          message.show(); 
       }
+   }
+
+   public void setCircleMode(boolean bCircle) {
+      this.bCircle = bCircle;
+   }
+
+   public void setRectangleMode(boolean bRectangle) {
+      this.bRectangle = bRectangle;
+   }
+
+   public void setFilledMode(boolean bFilled) {
+      this.bFilled = bFilled;
+   }
+
+   private Bitmap createScaledBitmap(int resID) {
+      Bitmap tempBitmap = BitmapFactory.decodeResource(getResources(), resID);
+
+      return Bitmap.createScaledBitmap(tempBitmap, getWidth(), getHeight(), true);
+   }
+
+   public void setBackground(int id) {
+      backgroundRadioButtonID = id;
+
+      if (id == R.id.yellowNotepadRadioButton) {
+         backgroundBitmap = createScaledBitmap(R.drawable.yellow_notepad_drawable);
+      } else if (id == R.id.smileyRadioButton) {
+         backgroundBitmap = createScaledBitmap(R.drawable.smiley_face);
+      } else if (id == R.id.beeRadioButton) {
+         backgroundBitmap = createScaledBitmap(R.drawable.ic_launcher);
+      }
+   }
+
+   public int getBackgroundRadioButtonID() {
+      return backgroundRadioButtonID;
    }
 } // end class DoodleView
 

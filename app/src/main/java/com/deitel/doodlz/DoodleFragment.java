@@ -10,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,8 @@ import android.view.ViewGroup;
 
 public class DoodleFragment extends Fragment
 {
+   private static final String TAG = "DoodleFragment";
+
    private DoodleView doodleView; // handles touch events and draws
    private float acceleration; 
    private float currentAcceleration; 
@@ -27,6 +30,9 @@ public class DoodleFragment extends Fragment
    
    // value used to determine whether user shook the device to erase
    private static final int ACCELERATION_THRESHOLD = 100000;
+
+   private MenuItem rectangleMenuItem;
+   private MenuItem circleMenuItem;
 
    // called when Fragment's view needs to be created
    @Override
@@ -45,7 +51,8 @@ public class DoodleFragment extends Fragment
       // initialize acceleration values
       acceleration = 0.00f; 
       currentAcceleration = SensorManager.GRAVITY_EARTH;    
-      lastAcceleration = SensorManager.GRAVITY_EARTH;    
+      lastAcceleration = SensorManager.GRAVITY_EARTH;
+
       return view;
    }
       
@@ -144,6 +151,9 @@ public class DoodleFragment extends Fragment
    {
       super.onCreateOptionsMenu(menu, inflater);
       inflater.inflate(R.menu.doodle_fragment_menu, menu);
+
+      rectangleMenuItem = menu.findItem(R.id.drawRectangle);
+      circleMenuItem = menu.findItem(R.id.drawCircle);
    }
 
    // handle choice from options menu
@@ -174,6 +184,41 @@ public class DoodleFragment extends Fragment
          case R.id.print:     
             doodleView.printImage(); // print the current images
             return true; // consume the menu event
+         case R.id.drawRectangle:
+            // toggle the menu item
+            boolean bRect = !item.isChecked();
+            Log.d(TAG, "bRect " + bRect);
+            doodleView.setRectangleMode(bRect);
+            item.setChecked(bRect);
+
+            if (bRect) {
+               // circle mode should be false when rectangle mode is selected
+               doodleView.setCircleMode(false);
+               circleMenuItem.setChecked(false);
+            }
+            return true;
+         case R.id.drawCircle:
+            // toggle the menu item
+            boolean bCircle = !item.isChecked();
+            Log.d(TAG, "bCircle " + bCircle);
+            doodleView.setCircleMode(bCircle);
+            item.setChecked(bCircle);
+            if (bCircle) {
+               // rectangle mode should be false when circle mode is selected
+               doodleView.setRectangleMode(false);
+               rectangleMenuItem.setChecked(false);
+            }
+            return true;
+         case R.id.fillShape:
+            boolean bFilled = !item.isChecked(); //!doodleView.getRectangleMode();
+            Log.d(TAG, "bFilled" + bFilled);
+            doodleView.setFilledMode(bFilled);
+            item.setChecked(bFilled);
+            return true;
+         case R.id.setBackground:
+            BackgroundFragment bkDialog = new BackgroundFragment();
+            bkDialog.show(getFragmentManager(), "background Dialog");
+
       } // end switch
 
       return super.onOptionsItemSelected(item); // call super's method

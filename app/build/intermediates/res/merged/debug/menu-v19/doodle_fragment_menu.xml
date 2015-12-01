@@ -30,5 +30,27 @@
         android:showAsAction="ifRoom"
         android:title="@string/menuitem_print">
     </item>
-
-</menu><!-- From: file:/Users/brianb/Courses/BIT%20272/Exercises%20on%20Github/HTP-chapter07/app/src/main/res/menu-v19/doodle_fragment_menu.xml -->
+    <item
+        android:id="@+id/setBackground"
+        android:showAsAction="ifRoom"
+        android:title="@string/menuitem_set_background">
+    </item>
+    <item
+        android:id="@+id/drawRectangle"
+        android:showAsAction="ifRoom"
+        android:checkable="true"
+        android:title="@string/menuitem_rectangle">
+    </item>
+    <item
+        android:id="@+id/drawCircle"
+        android:showAsAction="ifRoom"
+        android:checkable="true"
+        android:title="@string/menuitem_circle">
+    </item>
+    <item
+        android:id="@+id/fillShape"
+        android:showAsAction="ifRoom"
+        android:checkable="true"
+        android:title="@string/menuitem_fill_shape">
+    </item>
+</menu><!-- From: file:/Users/seanchung/bit272/Ex/HTP-chapter07/app/src/main/res/menu-v19/doodle_fragment_menu.xml -->
